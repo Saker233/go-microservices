@@ -44,19 +44,19 @@ func (app *Config) handleSubmission(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
-
 func (app *Config) authenticate(w http.ResponseWriter, a requestAuth) {
 	// create some json which will be sent to auth service
 	jsonData, _ := json.MarshalIndent(a, "", "\t")
 
 	// call the service
-	request, err := http.NewRequest("POST", "http://authectication-service/authenticate", bytes.NewBuffer(jsonData))
+	request, err := http.NewRequest("POST", "http://authentication-service:8000/authenticate", bytes.NewBuffer(jsonData))
 	if err != nil {
 		app.errorJSON(w, err)
 	}
+	// request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	response, err := client.Do(request)
-	if err !=  nil {
+	if err != nil {
 		app.errorJSON(w, err)
 		return
 	}
@@ -75,8 +75,8 @@ func (app *Config) authenticate(w http.ResponseWriter, a requestAuth) {
 	var jsonFromService jsonResponse
 
 	// decode the json from the service
-	err = json.NewDecoder(response.Body).Decode(*&jsonFromService)
-	if err !=  nil {
+	err = json.NewDecoder(response.Body).Decode(&jsonFromService)
+	if err != nil {
 		app.errorJSON(w, err)
 	}
 
