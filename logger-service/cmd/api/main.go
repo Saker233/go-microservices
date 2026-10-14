@@ -29,7 +29,7 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-
+	log.Println("----------------------------------Mongo Connected successfully------------------------------------")
 	client = mongoClient
 
 	// create a context in order to disconnect
