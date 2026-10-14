@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -29,6 +30,7 @@ func (app *Config) routes() *gin.Engine {
 		AllowCredentials: true,
 		MaxAge:           300 * time.Second,
 	}))
-
+	router.GET("/ping", getHealth)
+	router.POST("/authenticate", authenticate)
 	return router
 }
