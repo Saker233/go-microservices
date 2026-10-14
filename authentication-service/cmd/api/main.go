@@ -1,6 +1,9 @@
 package main
 
-import "database/sql"
+import (
+	"authentication/data"
+	"database/sql"
+)
 
 const webPort = "8000"
 
