@@ -7,7 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type requestPayload struct {
+type jsonResponse struct {
+	Error   bool   `json:"error"`
+	Message string `json:"message"`
+	Data    any    `json:"data,omitempty"`
+}
+
+type request struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
@@ -19,7 +25,7 @@ func getHealth(c *gin.Context) {
 }
 
 func (app *Config) authenticate(c *gin.Context) {
-	var req requestPayload
+	var req request
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, errorResponse(err))
@@ -34,15 +40,15 @@ func (app *Config) authenticate(c *gin.Context) {
 	}
 
 	valid, err := user.PasswordMatches(req.Password)
-	if err != nil || !valid{
+	if err != nil || !valid {
 		c.JSON(http.StatusUnauthorized, errorResponse(err))
 		return
 	}
 
 	payload := jsonResponse{
-		Error: false,
+		Error:   false,
 		Message: fmt.Sprintf("Logged in user %s", user.Email),
-		Data: user,
+		Data:    user,
 	}
 
 	c.JSON(http.StatusAccepted, payload)
