@@ -31,6 +31,5 @@ func (app *Config) routes() *gin.Engine {
 	}))
 	router.GET("/ping", getHealth)
 	router.POST("/authenticate", app.authenticate)
-	router.POST("/handle", app.handleSubmission)
 	return router
 }
