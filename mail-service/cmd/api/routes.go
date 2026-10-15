@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -31,4 +32,10 @@ func (app *Config) routes() *gin.Engine {
 	}))
 	router.GET("/ping", getHealth)
 	return router
+}
+
+func getHealth(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "pong",
+	})
 }
