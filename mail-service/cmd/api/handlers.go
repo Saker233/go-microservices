@@ -35,14 +35,14 @@ func (app *Config) sendMail(c *gin.Context) {
 		Data:    req.Message,
 	}
 
-	err = app.Mailer.SendSMTPMessage(msg)
+	err = app.Mailer.sendSMTPMessage(msg)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
 
-	payload := jsonResponse {
-		Error: false,
+	payload := jsonResponse{
+		Error:   false,
 		Message: "sent to " + req.To,
 	}
 
