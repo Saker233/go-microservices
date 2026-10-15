@@ -1,7 +1,6 @@
 package main
 
 import (
-	"net/http"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -35,5 +34,3 @@ func (app *Config) routes() *gin.Engine {
 	router.POST("/send", app.sendMail)
 	return router
 }
-
-
