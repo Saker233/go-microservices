@@ -31,11 +31,9 @@ func (app *Config) routes() *gin.Engine {
 		MaxAge:           300 * time.Second,
 	}))
 	router.GET("/ping", getHealth)
+
+	router.POST("/send", app.sendMail)
 	return router
 }
 
-func getHealth(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "pong",
-	})
-}
+
