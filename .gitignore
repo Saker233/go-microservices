@@ -3,3 +3,4 @@ front-end/front-end/frontApp
 authentication-service/authApp
 project/db-data
 logger-service/loggerApp
+mail-service/mailApp
