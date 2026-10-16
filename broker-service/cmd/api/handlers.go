@@ -215,7 +215,7 @@ func (app *Config) pushToQueue(name, msg string) error {
 		Data: msg,
 	}
 
-	j, _ := json.MarshalIndent(*&payload, "", "\t")
+	j, _ := json.MarshalIndent(&payload, "", "\t")
 	err = emitter.Push(string(j), "log.INFO")
 	if err != nil {
 		return err
