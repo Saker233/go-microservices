@@ -52,6 +52,14 @@ services:
       MAIL_PASSWORD: ""
       FROM_NAME: "Mohamed Saker"
       FROM_ADDRESS: "mohamedsaker233@gmail.com"
+
+  listener-service:
+    build:
+      context: ./../listener-service
+      dockerfile: ./../listener-service/listener-service.dockerfile
+    deploy:
+      mode: replicated
+      replicas: 1
   
 
   postgres:
