@@ -236,7 +236,7 @@ func (app *Config) logItemViaRPC(w http.ResponseWriter, l LogPayload) {
 	}
 
 	var result string
-	err = client.Call("RPCServer.LogInfo", rpcPayload, *&result)
+	err = client.Call("RPCServer.LogInfo", rpcPayload, &result)
 	if err != nil {
 		app.errorJSON(w, err)
 		return
