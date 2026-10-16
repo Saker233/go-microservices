@@ -53,6 +53,8 @@ func main() {
 	err = rpc.Register(new(RPCServer))
 	go app.rpcListen()
 
+	go app.gRPCListen()
+
 	router := app.routes()
 
 	err = router.Run(":" + webPort)
