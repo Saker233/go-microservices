@@ -20,7 +20,7 @@ type Payload struct {
 	Data string `json:"data"`
 }
 
-func newConsumer(conn *amqp.Connection) (Consumer, error) {
+func NewConsumer(conn *amqp.Connection) (Consumer, error) {
 	consumer := Consumer{
 		conn: conn,
 	}
