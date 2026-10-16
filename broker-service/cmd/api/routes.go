@@ -25,6 +25,6 @@ func (app *Config) routes() http.Handler {
 
 	mux.Post("/", app.Broker)
 	mux.Post("/handle", app.handleSubmission)
-	mux.Post("log-grpc", app.LogViaGRPC)
+	mux.Post("/log-grpc", app.LogViaGRPC)
 	return mux
 }
