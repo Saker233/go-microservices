@@ -351,10 +351,3 @@ These are current-code observations to help avoid confusing a configuration defe
 5. **Mail environment variable names do not line up.** The Compose file supplies `MAIL_PASSWORD`, `FROM_NAME`, and `FROM_ADDRESS`; the mail service reads `MAIL_PASSWORF`, `FromName`, and `FromAddress`. As a result, those values are not loaded under their Compose names. The browser test request supplies its own `from` address, but this does not correct SMTP authentication or default sender settings.
 6. **Kubernetes examples contain mismatches.** The broker Service targets container port `8090`, although the broker listens on `8000`; the listener Deployment references the logger image; and the mail Deployment uses `localhost` as its SMTP host even though a `mailhog` Service is defined. The authentication manifest also has the DSN placeholder noted above.
 7. **Development defaults are not production secrets.** The Compose and Kubernetes examples contain simple database credentials and permissive development-oriented settings. Replace them with managed secrets and suitable access controls before using any deployment beyond a local demonstration.
-
-## Development notes
-
-- There are no checked-in Go `_test.go` files at present. For a basic compile/test pass, run `go test ./...` from each Go module directory; run it separately in each service because the repository has multiple independent modules.
-- There is no root-level `go.work` file, so tooling should be run from the relevant module directory.
-- The UI test page submits hard-coded sample credentials and an example message. Update those values for your local test data; they are examples, not setup instructions or provisioned accounts.
-- Do not commit generated binaries, local database files, or real credentials. The repository's `.gitignore` excludes service binaries and the Compose database-data directory.
