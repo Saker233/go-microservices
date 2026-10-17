@@ -339,15 +339,3 @@ The following screenshot records a Kubernetes dashboard view of the cluster work
 ```
 
 The generated gRPC files are checked in alongside the `.proto` definition in both the broker and logger modules. The existing root README previously documented `protoc` generation; if regenerating code, keep the schema and generated code in both modules consistent.
-
-## Known setup caveats
-
-These are current-code observations to help avoid confusing a configuration defect with an application behavior:
-
-1. **RabbitMQ connection strings are not usable AMQP URLs.** The broker and listener call `amqp.Dial` with the literal `******rabbitmq`. Configure a valid address for the Compose network (for example, `amqp://guest:guest@rabbitmq:5672/`) before starting those services.
-2. **The PostgreSQL DSN contains a placeholder.** `project/docker-compose.yml` and `project/k8s/authentication.yml` contain `******` in the DSN rather than a valid password value. The Compose PostgreSQL service sets its development password to `password`; use a DSN that matches the password configured for your own database.
-3. **The authentication database is not initialized by the repository.** PostgreSQL is configured with a `users` database, but the repository contains no SQL migration or seed data. Create the required table and a test user before expecting authentication to succeed.
-4. **RabbitMQ event publishing is not wired into a broker route.** The broker has an event-emitter helper, but `/handle` sends `log` actions via RPC and `/log-grpc` sends them via gRPC. In addition, the emitter publishes to `log_topic` (singular), while the listener declares and consumes from `logs_topic` (plural). The event path needs to be aligned and connected before relying on broker-published events.
-5. **Mail environment variable names do not line up.** The Compose file supplies `MAIL_PASSWORD`, `FROM_NAME`, and `FROM_ADDRESS`; the mail service reads `MAIL_PASSWORF`, `FromName`, and `FromAddress`. As a result, those values are not loaded under their Compose names. The browser test request supplies its own `from` address, but this does not correct SMTP authentication or default sender settings.
-6. **Kubernetes examples contain mismatches.** The broker Service targets container port `8090`, although the broker listens on `8000`; the listener Deployment references the logger image; and the mail Deployment uses `localhost` as its SMTP host even though a `mailhog` Service is defined. The authentication manifest also has the DSN placeholder noted above.
-7. **Development defaults are not production secrets.** The Compose and Kubernetes examples contain simple database credentials and permissive development-oriented settings. Replace them with managed secrets and suitable access controls before using any deployment beyond a local demonstration.
