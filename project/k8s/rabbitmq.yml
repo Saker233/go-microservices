@@ -33,7 +33,7 @@ metadata:
   name: rabbitmq
 spec:
   selector:
-    name: rabbitmq
+    app: rabbitmq
   ports:
     - protocol: TCP
       name: main-ports
